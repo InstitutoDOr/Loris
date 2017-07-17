@@ -69,10 +69,11 @@ class Instrument:
             inst.columns.append(col)
         return inst
         
-    def __init__(self, table, name='', columns=[]):
-        self.name = name
-        self.columns = columns
+    def __init__(self, table, name='', columns=None):
         self.table = table
+        self.name = name
+        self.columns = [] if columns is None else columns
+        
     
     # Function that generates a linst file using a instrument configuration dictionary
     def to_linst(self):
