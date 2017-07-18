@@ -1,0 +1,25 @@
+table{@}example
+title{@}Example
+date{@}Date_taken{@}Date of Administration{@}2006{@}2012
+static{@}Candidate_Age{@}Candidate Age (Months)
+static{@}Window_Difference{@}Window Difference (+/- Days)
+select{@}Examiner{@}Examiner{@}NULL=>''
+header{@}{@}Header
+static{@}{@}Label
+static{@}scoredField{@}Scored Field
+text{@}textboxType{@}Textbox Type
+select{@}textboxType_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+textarea{@}textareaType{@}Textarea Type
+select{@}textareaType_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}dropdownType{@}Dropdown Type{@}NULL=>''{-}'option_1'=>'option 1'{-}'option_2'=>'option 2'{-}'not_answered'=>'Not Answered'
+selectmultiple{@}multiselectType{@}Multiselect Type{@}NULL=>''{-}'option_multisel_1'=>'option multisel 1'{-}'option_multisel_2'=>'option multisel 2'{-}'not_answered'=>'Not Answered'
+date{@}datetypestandard_date{@}Date Type{@}1900{@}2100{@}
+select{@}datetypestandard_date_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+date{@}datetypebasic{@}Date Type{@}1900{@}2100{@}BasicDate
+date{@}datetypemonthyear{@}Date Type{@}1900{@}2100{@}MonthYear
+numeric{@}numericType{@}Numeric Type{@}0{@}100
+select{@}numericType_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+page{@}{@}Page Break
+header{@}{@}Page 2
+page{@}{@}Page Break
+header{@}{@}Page 3

@@ -2,7 +2,7 @@
 IDOR
 by Bruno Melo <bruno.melo@idor.org>
 '''
-import glob, os, csv, sys, datetime, numpy
+import glob, os, csv, sys, datetime, numpy, re
 from openpyxl import Workbook, load_workbook
 
 COLS = {
@@ -34,8 +34,6 @@ class Instrument:
         insts = []
         for sheet in wb:
             insts.append( Instrument.find_insts(sheet) )
-        print(insts[0].columns)
-        print(insts[1].columns)
         return insts
 
     @staticmethod
@@ -50,30 +48,31 @@ class Instrument:
         }
         
         inst = Instrument( sheet.title, name=sheet.title )
+        
         # Treating each column
         for colKey in unique(ws_data['column']):
             if not colKey: # Avoiding empty values
                 continue
-            col = InstrumentColumn( colKey )
+                
             idx = [i for i, x in enumerate(ws_data['column']) if x == colKey]
+            colLabel = ws_data['labels'][idx[0]]          
             if len(idx) > 1 or isinstance(ws_data['value'][idx[0]], (int, float) ):
                 labels = [ws_data['valueLabel'][i] for i in idx]
                 values = [ws_data['value'][i] for i in idx]
                 value = dict(zip(values, labels))
             else:
                 value = ws_data['value'][idx[0]]
-            # Setting value, this will also define the column type
-            col.set_value( value )
                 
             # Insert new column
+            col = InstrumentColumn( colKey, colLabel, value )
             inst.columns.append(col)
+            
         return inst
         
     def __init__(self, table, name='', columns=None):
         self.table = table
         self.name = name
-        self.columns = [] if columns is None else columns
-        
+        self.columns = [] if columns is None else columns        
     
     # Function that generates a linst file using a instrument configuration dictionary
     def to_linst(self):
@@ -96,16 +95,18 @@ class Instrument:
             linstContent += col.to_linst() + "\n"
             
         # Writing linst file
-        with open(  self.table + ".linst", "w") as text_file:
+        filename = self.table + ".linst"
+        with open(  filename, "w") as text_file:
             text_file.write(linstContent)
+            print( 'Generated file "%s"' % filename )
     
 # Subclass
 class InstrumentColumn:
-    def __init__(self, key, label='', type='', value=''):
+    def __init__(self, key, label, value=''):
         self.key = key
         self.label = label
         self.type = type
-        self.value = value
+        self.set_value(value)
     
     def set_value( self, value ):
         if isinstance(value,dict):
@@ -115,9 +116,14 @@ class InstrumentColumn:
             # Value will define the type
             if value[0] == '#':
                 self.type = 'numeric'
+                lims = re.findall(r'[-+]?\d+\b', value)
+                if len(lims) == 2:
+                    value = '@'.join(lims)
+                else:
+                    value = ''
             else:
                 self.type = value
-            value = ''
+                value = ''
             
         # Finishing column setup
         self.value = value
