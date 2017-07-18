@@ -1,0 +1,49 @@
+table{@}PhysicianEvaluation
+title{@}PhysicianEvaluation
+date{@}Date_taken{@}Date of Administration{@}2007{@}2022
+static{@}Candidate_Age{@}Candidate Age (Months)
+static{@}Window_Difference{@}Window Difference (+/- Days)
+select{@}Examiner{@}Examiner{@}NULL=>''
+select{@}NeurologyReport{@}Neurology Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}NeurologyReportDate{@}Neurology Report Date{@}
+select{@}NeurologyReportDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}GeneticsEvaluationRpt{@}Genetics Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}GeneticsEvaluationRptDate{@}Genetics Eval. Report Date{@}
+select{@}GeneticsEvaluationRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DevelopmentalPedRpt{@}Developmental Ped. Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}DevelopmentalPedRptDate{@}Developmental Ped. Eval. Report Date{@}
+select{@}DevelopmentalPedRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}OphthalmologyEvaluationRpt{@}Ophthalmology Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}OphthalmologyEvaluationRptDate{@}Ophthalmology Eval. Report Date{@}
+select{@}OphthalmologyEvaluationRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}AudiologyRpt{@}Audiology Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}AudiologyRptDate{@}Audiology Eval. Report Date{@}
+select{@}AudiologyRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}EndocrinologyRpt{@}Endocrinology Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}EndocrinologyRptDate{@}Endocrinology Eval. Report Date{@}
+select{@}EndocrinologyRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}OrthopedicEvaluationRpt{@}Orthopedic Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}OrthopedicEvaluationRptDate{@}Orthopedic Eval. Report Date{@}
+select{@}OrthopedicEvaluationRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PsychiatricEvaluationRpt{@}Psychiatric Eval. Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}PsychiatricEvaluationRptDate{@}Psychiatric Eval. Report Date{@}
+select{@}PsychiatricEvaluationRptDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}MedicalHistory{@}Medical History{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}MedicalHistoryDate{@}Medical History - Date{@}
+select{@}MedicalHistoryDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}RecentPhysical{@}Recent Physical{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}RecentPhysicalDate{@}Recent Physical - Date{@}
+select{@}RecentPhysicalDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}ClinicalEvaluationForm{@}Clinical Evaluation Form{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}ClinicalEvaluationFormDAte{@}Clinical Evaluation Form Date{@}
+select{@}ClinicalEvaluationFormDAte_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}MRIReport{@}MRI Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}MRIReportDate{@}MRI Report Date{@}
+select{@}MRIReportDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}GIReport{@}GI Report{@}NULL=>''{-}'0'=>'Not Received'{-}'1'=>'Received'{-}'97'=>'Not Applicable'{-}'not_answered'=>'Not Answered'
+date{@}GIReportDate{@}GI Report Date{@}
+select{@}GIReportDate_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+text{@}OtherSpecialistReport{@}Other Specialists or Reports{@}
+select{@}OtherSpecialistReport_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+date{@}OtherSpecialistReport Date{@}Other Specialists or Reports Date{@}
+select{@}OtherSpecialistReport Date_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
