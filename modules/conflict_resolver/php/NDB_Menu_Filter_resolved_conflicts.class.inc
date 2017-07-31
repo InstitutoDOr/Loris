@@ -88,7 +88,7 @@ class NDB_Menu_Filter_Resolved_Conflicts extends NDB_Menu_Filter
         $user = User::singleton();
         if (!$user->hasPermission('access_all_profiles')) {
             // restrict data to own site
-            $site_arr     = implode(",", $user->getCenterID());
+            $site_arr     = implode(",", $user->getCenterIDs());
             $this->query .= " AND candidate.CenterID IN (" . $site_arr . ")";
         }
 
@@ -244,6 +244,67 @@ class NDB_Menu_Filter_Resolved_Conflicts extends NDB_Menu_Filter
         }
 
         return true;
+    }
+
+    /**
+     * Returns a list of candidates, users, etc.
+     * Need override for when Examiner field is conflicting,
+     * need Examiner's full name
+     *
+     * @return array
+     * @access private
+     */
+    function _getFullList()
+    {
+        // create DB object
+        $DB =& Database::singleton();
+
+        $qparams = array();
+        // add the base query
+        $query  = '';
+        $query .= $this->_getBaseQuery();
+
+        $filterdetails = $this->_getBaseFilter();
+        $query        .= $filterdetails['clause'];
+        $qparams       = $filterdetails['params'];
+        // apply ORDER BY filters
+        $query .= " ORDER BY ";
+        if (!empty($this->filter['order'])) {
+            $query .= $this->filter['order']['field']
+                ." ".$this->filter['order']['fieldOrder'].", ";
+        }
+        $query .= $this->order_by;
+        // get the list
+
+        $pageNum = 1;
+        if (isset($_REQUEST['pageID'])) {
+            $pageNum = $_REQUEST['pageID'];
+        }
+
+        $this->_getNumberPages($query);
+
+        $config         =& NDB_Config::singleton();
+        $resultsPerPage = $config->getSetting('rowsPerPage');
+        $limit          = " LIMIT $resultsPerPage"
+            ." OFFSET " . (($pageNum-1)*$resultsPerPage);
+        $result         = $DB->pselect($query . $limit, $qparams);
+        // OVERRIDE START
+        foreach ($result as $k => $r) {
+            if ($r['Question'] === 'Examiner') {
+                if (!empty($r['CorrectAnswer'])) {
+                    $r['CorrectAnswer'] = $DB->pselectOne(
+                        'SELECT full_name 
+                         FROM examiners 
+                         WHERE examinerID=:eid',
+                        array('eid' => $r['CorrectAnswer'])
+                    );
+                }
+                $result[$k] = $r;
+            }
+        }
+        //OVERRIDE END
+
+        return $result;
     }
 
     /**

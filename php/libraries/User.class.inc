@@ -198,6 +198,16 @@ class User extends UserPermissions
     }
 
     /**
+     * Get the user's id
+     *
+     * @return int
+     */
+    function getId()
+    {
+        return $this->userInfo['ID'];
+    }
+
+    /**
      * Get the user's username
      *
      * @return string
@@ -208,21 +218,22 @@ class User extends UserPermissions
     }
 
     /**
-     * Get the user's site's name
+     * Get the user's sites' names, concatenated with
+     * a semi-colon if the User is at more than one site
      *
      * @return string
      */
-    function getSiteName()
+    function getSiteNames()
     {
         return $this->userInfo['Sites'];
     }
 
     /**
-     * Get the user's site's ID number
+     * Get the user's sites' ID numbers
      *
      * @return array
      */
-    function getCenterID()
+    function getCenterIDs()
     {
         return $this->userInfo['CenterIDs'];
     }
@@ -380,7 +391,7 @@ class User extends UserPermissions
      * @param string $expiry   The password expiry date. If not supplied, the
      *                         password expiry date will be set to now+6months.
      *
-     * @return none
+     * @return void
      */
     function updatePassword($password, $expiry = null)
     {
@@ -399,6 +410,38 @@ class User extends UserPermissions
         );
 
         $this->update($updateArray);
+    }
+
+    /**
+     * Determines if the user has a center
+     *
+     * @param int $center_id The center id
+     *
+     * @return bool
+     */
+    public function hasCenter($center_id)
+    {
+        return in_array(
+            $center_id,
+            $this->getCenterIDs()
+        );
+    }
+    /**
+     * Determines if the user has a permission
+     * for a center
+     *
+     * @param string $code      The permission code
+     * @param int    $center_id The center id
+     *
+     * @return bool
+     */
+    public function hasCenterPermission($code, $center_id)
+    {
+        if ($this->hasPermission("superuser")) {
+            return true;
+        }
+        return $this->hasPermission($code)
+            && $this->hasCenter($center_id);
     }
 }
 ?>
