@@ -689,7 +689,9 @@ class LorisForm
             }
         }
         // Always sanitize user-controlled input
-        $newValue = htmlspecialchars($newValue);
+        if (!is_array($newValue)) {
+            $newValue = htmlspecialchars($newValue);
+        }
 
         return $newValue;
     }
@@ -1955,13 +1957,19 @@ class LorisForm
                  */
                 $el = $this->createBase($args[1], $args[2], $args[4]);
 
-                $el['type']        = $type;
+                $el['type']        = 'advcheckbox';
                 $el['checkStates'] = $args[5];
                 $el['_text']       = $args[3];
             } else {
                 $el         = $this->createBase($elname, $label, $options);
-                $el['type'] = $type;
+                $el['type'] = 'advcheckbox';
             }
+            break;
+
+        case 'date':
+            $el            = $this->createBase($elname, $label, $attribs);
+            $el['type']    = 'date';
+            $el['options'] = $options;
             break;
         case 'radio':
             $el         = $this->createBase($elname, $label, $options, $attribs);
@@ -1969,7 +1977,6 @@ class LorisForm
             break;
         case 'time':
         case 'textarea':
-        case 'date':
         case 'password':
             $el         = $this->createBase($elname, $label, $options);
             $el['type'] = $type;
