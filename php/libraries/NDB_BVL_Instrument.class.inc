@@ -145,6 +145,7 @@ class NDB_BVL_Instrument extends NDB_Page
     var $WrapperTextElements           = array();
     var $WrapperNumericElements        = array();
     var $WrapperDateWithStatusElements = array();
+
     /**
      * Factory generates a new instrument instance of type
      * $instrument, and runs the setup() method on that new
@@ -166,6 +167,9 @@ class NDB_BVL_Instrument extends NDB_Page
     {
         $class = "NDB_BVL_Instrument_$instrument";
 
+        // Ensure 'page' is a string.
+        $page = $page ?? '';
+
         // Make sure the instrument class has been included/required!
         $factory = NDB_Factory::singleton();
         $config  = $factory->config();
@@ -184,7 +188,13 @@ class NDB_BVL_Instrument extends NDB_Page
         if (file_exists($base."project/instruments/$instrument.linst")
         ) {
             include_once 'NDB_BVL_Instrument_LINST.class.inc';
-            $obj = new \Loris\Behavioural\NDB_BVL_Instrument_LINST();
+            $obj = new \Loris\Behavioural\NDB_BVL_Instrument_LINST(
+                new Module($instrument),
+                $page,
+                $commentID,
+                $commentID,
+                'test_form'
+            );
         } else {
             if (!class_exists($class)
                 && ($guarantee_exists === true
@@ -196,8 +206,13 @@ class NDB_BVL_Instrument extends NDB_Page
                 include_once $base."project/instruments/$class.class.inc";
             }
             // Now go ahead and instantiate it
-            $obj = new $class;
-            // Now go ahead and instantiate it
+            $obj = new $class(
+                new Module($instrument),
+                $page,
+                $commentID,
+                $commentID,
+                'test_form'
+            );
         }
 
         // if a script is loading this form without a commentID, display all fields
@@ -206,7 +221,7 @@ class NDB_BVL_Instrument extends NDB_Page
         }
 
         // Sets up page variables such as $this->commentID and $this->form
-        $success = $obj->setup($commentID, $page);
+        $obj->setup($commentID, $page);
 
         // Adds all of the form element and form rules to the page after
         // having instantiated the form above
@@ -311,7 +326,8 @@ class NDB_BVL_Instrument extends NDB_Page
      */
     function setup($commentID = null, $page = null)
     {
-        $this->_setupPage(null, $page, null, $commentID, 'test_form');
+        $this->commentID = $commentID;
+        $this->page      = $page;
     }
 
     /**
@@ -330,6 +346,7 @@ class NDB_BVL_Instrument extends NDB_Page
         $scorer = $base . "project/instruments/" . $this->testName . ".score";
 
         if (file_exists($scorer)) {
+            $output = array();
             exec(
                 $scorer . " " . escapeshellarg($this->getCommentID()),
                 $output,
@@ -455,7 +472,7 @@ class NDB_BVL_Instrument extends NDB_Page
             && $defaults['Window_Difference'] != 0
         ) {
             $defaults['Candidate_Age']
-                = '<span class="error">' . $defaults['Candidate_Age'] . '</span>';
+                = $defaults['Candidate_Age'] . " (Age out of range)";
         }
         //Convert select multiple elements into a quickform array
         if (!empty($this->_selectMultipleElements)) {
@@ -490,7 +507,7 @@ class NDB_BVL_Instrument extends NDB_Page
             // the database
             $dataEntryCompletionStatus
                 = $this->_determineDataEntryCompletionStatus();
-            $success = $this->_setDataEntryCompletionStatus(
+            $this->_setDataEntryCompletionStatus(
                 $dataEntryCompletionStatus
             );
         } else {
@@ -725,7 +742,7 @@ class NDB_BVL_Instrument extends NDB_Page
             if (strpos($key, '__') === 0) {
                 unset($values[$key]);
             }
-            Utility::nullifyEmpty($values, $key);
+            $values = Utility::nullifyEmpty($values, $key);
         }
         $db     =& Database::singleton();
         $result = $db->update(
@@ -834,18 +851,18 @@ class NDB_BVL_Instrument extends NDB_Page
         if ($CertificationEnabled) {
             foreach (
                 Utility::toArray($CertificationConfig['CertificationProjects'])
-                AS $key => $value
+                as $value
             ) {
                 if (is_array($value['CertificationProject'])) {
                     $value = $value['CertificationProject'];
                 }
-                foreach ($value as $k=>$projID) {
+                foreach ($value as $projID) {
                     $CertificationProjects[$projID] = $projID;
                 }
             }
             foreach (
                 Utility::toArray($CertificationConfig['CertificationInstruments'])
-                AS $instrument
+                as $instrument
             ) {
                 foreach (Utility::toArray($instrument['test']) as $test) {
                     $CertificationInstruments[] = $test['@']['value'];
@@ -973,7 +990,7 @@ class NDB_BVL_Instrument extends NDB_Page
      */
     function freeze()
     {
-        if ($_REQUEST['json'] === 'true') {
+        if (isset($_REQUEST['json']) && $_REQUEST['json'] === 'true') {
             return;
         }
         $this->form->freeze();
@@ -1109,7 +1126,7 @@ class NDB_BVL_Instrument extends NDB_Page
     function _getQuickformDate($databaseValue)
     {
         throw new Exception(
-            "The function _getQuickformDate has been depricated. 
+            "The function _getQuickformDate has been deprecated. 
             Please contact LORIS developer mail list for support."
         );
     }
@@ -1231,16 +1248,18 @@ class NDB_BVL_Instrument extends NDB_Page
     function XINRunElementRules($elname, $elements, $rules)
     {
         $errors = array();
+        //Conditions for the rule to be true, thus the element to be required.
+        $rule_outcomes = array();
 
         foreach ($rules['rules'] AS $rule) {
-            //Conditions for the rule to be true, thus the element to be required.
-            $rule_outcomes = array();
             //Loop through the assigned rules (which is the array of formatted
             //statements passed in XINRegisterRule)
             //If this is an OR rule using two different controllers explode it
             //at the pipe.  ex: q_1{@}=={@}yes|q_2{@}=={@}yes
-            if (stristr(substr($rule, strpos($rule, "|")), "{@}")) {
-                $rules_array = explode("|", $rule);
+            $isInterfieldOr = false;
+            if (substr_count($rule, '{@}') > 2 && strstr($rule, '|')) {
+                $rules_array    = explode("|", $rule);
+                $isInterfieldOr = true;
             } else {  //Otherwise its a regular rule.  ex: q_1{@}=={@}yes
                 $rules_array[] = $rule;
             }
@@ -1277,6 +1296,8 @@ class NDB_BVL_Instrument extends NDB_Page
 
                     if ($ElementResult) {
                         $or_conditions = true; //If any of the OR rules is true
+                    } else if (!$isInterfieldOr) {
+                        $or_conditions = false;
                     }
                 }
             }
@@ -1445,7 +1466,7 @@ class NDB_BVL_Instrument extends NDB_Page
 
         $db =& Database::singleton();
 
-        $success = $db->update(
+        $db->update(
             $this->table,
             array('Data_entry_completion_status' => $status),
             array('CommentID' => $this->getCommentID())
@@ -1911,7 +1932,7 @@ class NDB_BVL_Instrument extends NDB_Page
         }
 
         // update the scores
-        $success = $db->update(
+        $db->update(
             $this->table,
             $scores,
             array('CommentID' => $this->getCommentID())
@@ -2135,25 +2156,23 @@ class NDB_BVL_Instrument extends NDB_Page
 
             $config = NDB_Config::singleton();
             $paths  = $config->getSetting('paths');
-            if (empty($subtest)) {
-                // check if the file/class exists
-                $BasePath = $paths['base'] . 'project/instruments/';
-                $TestName = $this->testName;
-                if (file_exists(
-                    $BasePath
-                    . "NDB_BVL_Instrument_$TestName.class.inc"
-                )
-                    || file_exists($BasePath . "$TestName.linst")
-                ) {
-                    // save possible changes from the control panel...
-                    $success = $controlPanel->save();
-                }
 
-                // display the control panel
-                $html = $controlPanel->display();
-                return $html;
-
+            // check if the file/class exists
+            $BasePath = $paths['base'] . 'project/instruments/';
+            $TestName = $this->testName;
+            if (file_exists(
+                $BasePath
+                . "NDB_BVL_Instrument_$TestName.class.inc"
+            )
+                || file_exists($BasePath . "$TestName.linst")
+            ) {
+                // save possible changes from the control panel...
+                $success = $controlPanel->save();
             }
+
+            // display the control panel
+            $html = $controlPanel->display();
+            return $html;
         }
     }
 

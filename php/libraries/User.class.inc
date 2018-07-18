@@ -2,7 +2,7 @@
 /**
  * This file contains the Loris user class
  *
- * PHP Version 5
+ * PHP Version 7
  *
  * @category Main
  * @package  Main
@@ -49,14 +49,14 @@ class User extends UserPermissions
         $obj->userInfo['UserID'] = $username;
 
         // get the user's permissions
-        $success = $obj->select($username);
+        $obj->select($username);
 
         // create DB object
         $DB =& Database::singleton();
 
         // get user data from database
         $query = "SELECT users.*,
-            GROUP_CONCAT(psc.Name SEPARATOR ';') AS Sites
+            GROUP_CONCAT(psc.Name ORDER BY psc.Name SEPARATOR ';') AS Sites
             FROM users
             LEFT JOIN user_psc_rel ON (user_psc_rel.UserID=users.ID)
             LEFT JOIN psc ON (user_psc_rel.CenterID=psc.CenterID)
@@ -67,26 +67,26 @@ class User extends UserPermissions
 
         // get user sites
         $user_centerID_query =  $DB->pselect(
-            "SELECT CenterID FROM user_psc_rel upr 
+            "SELECT CenterID FROM user_psc_rel upr
                         WHERE upr.UserID= :UID",
             array('UID' => $row['ID'])
         );
-
+        $user_cid            = array();
         foreach ($user_centerID_query as $key=>$val) {
             $user_cid[$key] =$val['CenterID'];
         }
 
         // Get examiner information
         $examiner_check = $DB->pselect(
-            "SELECT e.full_name, 
-                    epr.centerID, 
-                    e.radiologist, 
-                    epr.active, 
-                    epr.pending_approval 
+            "SELECT e.full_name,
+                    epr.centerID,
+                    e.radiologist,
+                    epr.active,
+                    epr.pending_approval
                   FROM examiners e
                   JOIN examiners_psc_rel epr ON (e.examinerID=epr.examinerID)
-                  WHERE e.full_name=:fn 
-                    AND (epr.active='Y' 
+                  WHERE e.full_name=:fn
+                    AND (epr.active='Y'
                           OR (epr.active='N' AND epr.pending_approval='Y')
                         )",
             array(
@@ -96,7 +96,7 @@ class User extends UserPermissions
 
         $examiner_info =array();
         if (!empty($examiner_check) && !is_null($examiner_check)) {
-            foreach ($examiner_check as $rw=>$val) {
+            foreach ($examiner_check as $val) {
                 if ($val['active'] == 'Y') {
                     $examiner_info['pending'] = $val['pending_approval'];
                 }
@@ -107,9 +107,9 @@ class User extends UserPermissions
             }
         }
         // store user data in object property
-        $row['examiner']  =$examiner_info;
-        $row['CenterIDs'] =$user_cid;
-        $obj->userInfo    =$row;
+        $row['examiner']  = $examiner_info;
+        $row['CenterIDs'] = $user_cid;
+        $obj->userInfo    = $row;
         return $obj;
     }
 
@@ -148,7 +148,7 @@ class User extends UserPermissions
         // create DB object
         $DB =& Database::singleton();
 
-        $success = $DB->insert('users', $set);
+        $DB->insert('users', $set);
 
         return true;
     }
@@ -167,7 +167,7 @@ class User extends UserPermissions
         // create DB object
         $DB =& Database::singleton();
 
-        $success = $DB->update(
+        $DB->update(
             'users',
             $set,
             array('UserID' => $this->userInfo['UserID'])
@@ -191,14 +191,14 @@ class User extends UserPermissions
             return $this->userInfo;
         } elseif ($var === 'CenterID') {
             throw new \LorisException(
-                "The function getData('CenterID') 
-                                        is deprecated and is replaced 
+                "The function getData('CenterID')
+                                        is deprecated and is replaced
                                         with getData('CenterIDs')"
             );
         } elseif ($var === 'Site') {
             throw new \LorisException(
-                "The function getData('Site') 
-                                        is deprecated and is replaced 
+                "The function getData('Site')
+                                        is deprecated and is replaced
                                         with getData('Sites')"
             );
         } else {
@@ -244,8 +244,8 @@ class User extends UserPermissions
     function getSiteName()
     {
         throw new \LorisException(
-            "The function getSiteName 
-                                   is deprecated and is replaced 
+            "The function getSiteName
+                                   is deprecated and is replaced
                                    with getSiteNames"
         );
     }
@@ -269,8 +269,8 @@ class User extends UserPermissions
     function getCenterID()
     {
         throw new \LorisException(
-            "The function getCenterID 
-                                   is deprecated and is replaced 
+            "The function getCenterID
+                                   is deprecated and is replaced
                                    with getCenterIDs"
         );
     }
@@ -285,6 +285,16 @@ class User extends UserPermissions
         return $this->userInfo['CenterIDs'];
     }
 
+    /**
+     * Get the user's language preference
+     *
+     * @return int
+     */
+    function getLanguagePreference()
+    {
+        return $this->userInfo['language_preference'];
+    }
+
 
     /**
      * Returns all sites where Examiner is active
@@ -295,6 +305,7 @@ class User extends UserPermissions
     {
         $site_list = $this->userInfo['examiner'];
         unset($site_list['pending']);
+        natcasesort($site_list);
         return $site_list;
     }
 
@@ -305,7 +316,7 @@ class User extends UserPermissions
      */
     function getStudySites()
     {
-        $site_arr         = $this->userInfo['CenterIDs'];
+        $site_arr         = $this->getCenterIDs();
         $user_study_sites = array();
         foreach ($site_arr as $key => $val) {
             $site[$key] = &Site::singleton($val);
@@ -313,7 +324,25 @@ class User extends UserPermissions
                 $user_study_sites[$val] = $site[$key]->getCenterName();
             }
         }
+        natcasesort($user_study_sites);
         return $user_study_sites;
+    }
+
+    /**
+     * Checks if the user is in at least one study site
+     *
+     * @return boolean
+     */
+    function hasStudySite()
+    {
+        $site_arr = $this->getCenterIDs();
+        foreach ($site_arr as $sitename) {
+            $site = Site::singleton($sitename);
+            if ($site->isStudySite()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -339,7 +368,7 @@ class User extends UserPermissions
      * @access public
      * @static
      */
-    function newPassword($length = 8)
+    static function newPassword($length = 8)
     {
         // start with a blank password
         $password = '';
@@ -355,13 +384,13 @@ class User extends UserPermissions
 
         // add random characters to $password until $length is reached
         for ($i = 0; $i < $length-2; $i++) {
-            $password .= substr($possible, mt_rand(0, $possible_cnt), 1);
+            $password .= substr($possible, random_int(0, $possible_cnt), 1);
         }
 
         if (strpbrk($password, $specialChars) === false) {
             $password .= substr(
                 $specialChars,
-                mt_rand(0, strlen($specialChars)-1),
+                random_int(0, strlen($specialChars)-1),
                 1
             );
         }
@@ -397,8 +426,11 @@ class User extends UserPermissions
      * @access public
      * @static
      */
-    function isPasswordStrong($password, $values = array(), $operators = array())
-    {
+    static function isPasswordStrong(
+        $password,
+        $values = array(),
+        $operators = array()
+    ) {
         $CharTypes = 0;
         // less than 6 characters
         if (strlen($password) < 8) {
@@ -488,7 +520,8 @@ class User extends UserPermissions
     {
         return in_array(
             $center_id,
-            $this->getCenterIDs()
+            $this->getCenterIDs(),
+            true
         );
     }
     /**

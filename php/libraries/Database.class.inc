@@ -110,7 +110,7 @@ class Database
             // create the connection if none exists
             if (empty($connections[$connection])) {
                 $connections[$connection] = new Database;
-                $ok = $connections[$connection]->connect(
+                $connections[$connection]->connect(
                     $database,
                     $username,
                     $password,
@@ -288,7 +288,11 @@ class Database
     {
         $retVal = array();
         foreach ($set as $key => $val) {
-            $retVal[$key] = is_null($val) ? null : htmlspecialchars($val);
+            if ($val === 'Unrated') {
+                $retVal[$key] = '';
+            } else {
+                $retVal[$key] = is_null($val) ? null : htmlspecialchars($val);
+            }
         }
         return $retVal;
     }
@@ -346,7 +350,7 @@ class Database
         $this->lastInsertID = $this->_PDO->lastInsertId();
 
         // Track changes must be called after last insertId is set
-        $err = $this->trackChanges($table, $set, '2=1', 'I');
+        $this->trackChanges($table, $set, '2=1', 'I');
         return true;
     }
 
@@ -390,8 +394,6 @@ class Database
                 "Replace statement did not execute successfully.",
                 $query
             );
-        } elseif ($result === 0) {
-            $this->insert('empty_queries', array('query' => $query));
         }
 
         $this->affected = $result;
@@ -483,7 +485,7 @@ class Database
             );
         }
 
-        $err = $this->trackChanges($table, $set, $where);
+        $this->trackChanges($table, $set, $where);
         $this->_printQuery($query.$where);
 
         $prep   = $this->_PDO->prepare($prepQ);
@@ -530,7 +532,7 @@ class Database
 
         // There is no set clause for a delete, so add a fake
         // one.
-        $err = $this->trackChanges($table, array(), $where, 'D');
+        $this->trackChanges($table, array(), $where, 'D');
 
         $this->_printQuery($query);
         $result = $this->_PDO->exec($query);
@@ -541,8 +543,6 @@ class Database
                 $query,
                 $where
             );
-        } elseif ($result === 0) {
-            $this->insert('empty_queries', array('query' => $query));
         }
 
         $this->affected = $result;
@@ -642,9 +642,10 @@ class Database
     function selectOne($query)
     {
         $result = null;
-        $this->select($query, $result);
+        $this->selectRow($query, $result);
         if (is_array($result) && count($result)) {
-            list(,$result) = each($result[0]);
+            $valueArray = array_values($result);
+            $result     = $valueArray[0];
         }
         return $result;
     }
@@ -667,8 +668,6 @@ class Database
                 "Could not run query $query"
                 . print_r($this->_PDO->errorInfo(), true)
             );
-        } elseif ($result === 0) {
-            $this->insert('empty_queries', array('query' => $query));
         }
 
         $this->affected = $result;
@@ -761,6 +760,38 @@ class Database
     }
 
     /**
+     * Runs a query as a prepared statement and returns the values of the first
+     * column in the select statement. If multiple columns are given, only the first
+     * will be returned.
+     *
+     * @param string $query  The SQL SELECT query to be run
+     * @param array  $params Values to use for binding to prepared statement
+     *
+     * @return array Associative array of form rowID=>value containing all values
+     *               for the first element of the select statement
+     */
+    function pselectCol($query, $params)
+    {
+        $unprocessed = $this->pselect($query, $params);
+
+        $result = array();
+        foreach ($unprocessed as $k=>$row) {
+            $colNumber = count($row);
+            if ($colNumber !== 1) {
+                throw new DatabaseException(
+                    "The pselectCol() function expects only one column in the 
+                    SELECT clause of the query, $colNumber were passed.",
+                    $query
+                );
+            }
+            // Note: reset() rewinds array's internal pointer to the first element
+            // and returns the value of the first array element.
+            $result[$k] =reset($row);
+        }
+        return $result;
+    }
+
+    /**
      * Runs a query as a prepared statement and returns the value of the first
      * column of the first row
      *
@@ -773,8 +804,8 @@ class Database
     {
         $result = $this->pselectRow($query, $params);
         if (is_array($result) && count($result)) {
-
-            list(,$result) = each($result);
+            $valueArray = array_values($result);
+            $result     = $valueArray[0];
         }
         return $result;
     }
@@ -934,7 +965,7 @@ class Database
                 $prim_vals = join(",", $primaryValues);
                 $this->_preparedStoreHistory->bindParam(":newval", $set[$column]);
                 $this->_preparedStoreHistory->bindParam(":primaryVals", $prim_vals);
-                $history = $this->_preparedStoreHistory->execute();
+                $this->_preparedStoreHistory->execute();
             }
         } else if ($type == 'U' || $type == 'D') {
             // construct the select query
@@ -1064,21 +1095,6 @@ class Database
     }
 
     /**
-     * Database class no longer extends PEAR
-     *
-     * @param mixed $data    The variable to check
-     * @param mixed $msgcode Additional error message / error code to check
-     *
-     * @return     none
-     * @deprecated Database class no longer extends PEAR
-     */
-    function isError($data, $msgcode)
-    {
-        throw new DatabaseException(
-            "Database class no longer extends PEAR"
-        );
-    }
-    /**
      * Checks to see if a table exists in the Database
      *
      * @param string $test_name The table to check for.
@@ -1182,5 +1198,83 @@ class Database
         }
     }
 
+    /**
+     * Checks if we're in a transaction
+     *
+     * @return bool `true`, if in transaction
+     * @throws DatabaseException
+     */
+    public function inTransaction()
+    {
+        return $this->_PDO->inTransaction();
+    }
+
+    /**
+     * Attempts to begin a transaction
+     *
+     * @return bool `true`, on success
+     * @throws DatabaseException
+     */
+    public function beginTransaction()
+    {
+        if ($this->inTransaction()) {
+            throw new DatabaseException(
+                "There is already a database transaction in progress; "
+                . "rollBack() or commit() the current transaction first"
+            );
+        }
+        try {
+            return $this->_PDO->beginTransaction();
+        } catch (PDOException $ex) {
+            //Probably because the driver doesn't support transactions
+            throw new DatabaseException(
+                $ex->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Attempts to roll back a transaction
+     *
+     * @return bool `true`, on success
+     * @throws DatabaseException
+     */
+    public function rollBack()
+    {
+        if (!$this->inTransaction()) {
+            throw new DatabaseException(
+                "Cannot rollBack() when not in a transaction"
+            );
+        }
+        try {
+            return $this->_PDO->rollBack();
+        } catch (PDOException $ex) {
+            throw new DatabaseException(
+                $ex->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Attempts to commit a transaction
+     *
+     * @return bool `true`, on success
+     * @throws DatabaseException
+     */
+    public function commit()
+    {
+        if (!$this->inTransaction()) {
+            throw new DatabaseException(
+                "Cannot commit() when not in a transaction"
+            );
+        }
+        try {
+            return $this->_PDO->commit();
+        } catch (PDOException $ex) {
+            throw new DatabaseException(
+                $ex->getMessage()
+            );
+        }
+    }
 }
 ?>

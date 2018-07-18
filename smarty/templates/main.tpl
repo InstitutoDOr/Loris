@@ -158,7 +158,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{$baseurl}/preferences/">
+                                    <a href="{$baseurl}/user_accounts/my_preferences/">
                                         My Preferences
                                     </a>
                                 </li>
@@ -241,7 +241,7 @@
                                     </a>.
                                 </p>
                                 <p>
-                                    <a href="javascript:history.back(-1)">
+                                    <a href="javascript:history.back()">
                                         Please click here to go back
                                     </a>.
                                 </p>
@@ -484,7 +484,7 @@
                     </ul>
                 </center>
                 <div align="center" colspan="1">
-                    Powered by LORIS version {$version} &copy; {$currentyear}. All rights reserved.
+                    Powered by LORIS &copy; {$currentyear}. All rights reserved.
                 </div>
       		<div align="center" colspan="1">
                     Created by <a href="http://mcin-cnim.ca/" target="_blank">

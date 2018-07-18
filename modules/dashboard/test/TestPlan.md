@@ -33,21 +33,18 @@
     Clicking on this task should take you to the BVL statistics page, with the stats filtered according to the user's
     site (or without any filter if the user has 'Across all sites access candidates profiles' permission).
     [Automate Test on Travis_CI]
-12. Verify that for a user with 'Can edit final radiological reviews' and 'Can view final radiological reviews'
-    permission, the number of radiological reviews to do is displayed in the My Task panel. Site displayed is always
-    'All'. The number of radiological reviews is the number of entries on the Radiological Review page for which Review
-    Done is not set (i.e. 'No' is chosen in the Selection Filter for the Review Done entry). Clicking on the task should
-    take you to that page, with the Selection Filter set correctly.
-    [Automate Test on Travis_CI]
-13. Verify that if a user has 'Across all sites create and edit user accounts' permission, the number of pending
+12. Verify that if a user has 'Across all sites create and edit user accounts' permission, the number of pending
     account approvals is displayed in the My Task panel. This should be the number of entries in the User Account
     page with the following Selection Filter: Site set to 'All' and Pending Approval set to 'Yes'. The Site displayed
     will always be 'All'.Check that you are taken to that page (with the Selection Filter correctly set) when you
     click on the task.
     [Automate Test on Travis_CI]
-14. Verify that if a user has 'Across all sites access candidate profiles' permission, the reports works and even
+13. Verify that if a user has 'Across all sites access candidate profiles' permission, the reports works and even
     more important to check without this permission.
     [Automate Test]
+14. Verify that if a user has 'issue_tracker_reporter / issue_tracker_developer' permission,
+    the issue tracker panel should not be found without this permission.
+    [Automate Test on Travis_CI]
 15. Verify that if a user has 'User Management / Survey Participant Management' permission, the number of pending
     account approvals is displayed in the My Task panel. This should be the number of entries in the User Account
     page with the following Selection Filter: Site set to the user's site and Pending Approval set to 'Yes'. The

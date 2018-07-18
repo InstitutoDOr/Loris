@@ -303,7 +303,7 @@ function getChangedValues($issueValues, $issueID)
     $changedValues = [];
     foreach ($issueValues as $key => $value) {
         // Only include fields that have changed
-        if ($issueValues[$key] != $issueData[$key] && !empty($value)) {
+        if ($issueValues[$key] != ($issueData[$key] ?? '') && !empty($value)) {
             $changedValues[$key] = $value;
         }
     }
@@ -429,8 +429,7 @@ function getComments($issueID)
         "FROM issues_history where issueID=:issueID " .
         "UNION " .
         "SELECT issueComment, 'comment', dateAdded, addedBy " .
-        "FROM issues_comments where issueID=:issueID " .
-        "ORDER BY dateAdded DESC",
+        "FROM issues_comments where issueID=:issueID ",
         array('issueID' => $issueID)
     );
 
@@ -563,13 +562,7 @@ function getIssueFields()
         $sites = Utility::getAssociativeSiteList();
     } else {
         // allow only to view own site data
-        $site_arr = $user->getData('CenterIDs');
-        foreach ($site_arr as $key=>$val) {
-            $site_arr[$key] = Site::singleton($val);
-            if ($site_arr[$key]->isStudySite()) {
-                $sites[$val] = $site_arr[$key]->getCenterName();
-            }
-        }
+        $sites = $user->getStudySites();
     }
 
     //not yet ideal permissions
@@ -718,13 +711,13 @@ ORDER BY dateAdded",
  *
  * @return array
  */
-function getIssueData($issueID)
+function getIssueData($issueID=null)
 {
 
     $user =& User::singleton();
     $db   =& Database::singleton();
 
-    if ($issueID) {
+    if (!empty($issueID)) {
         return $db->pselectRow(
             "SELECT i.*, c.PSCID, s.Visit_label as visitLabel FROM issues as i " .
             "LEFT JOIN candidate c ON (i.candID=c.CandID)" .

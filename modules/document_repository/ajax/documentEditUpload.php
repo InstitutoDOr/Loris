@@ -52,14 +52,13 @@ if ($userSingleton->hasPermission('document_repository_view')
     || $userSingleton->hasPermission('document_repository_delete')
 ) {
     if ($action == 'upload') {
-        $puser      = $_POST['user'];
         $category   = $_POST['category'];
-        $site       = $_POST['site'];
-        $instrument = $_POST['instrument'];
-        $pscid      = $_POST['pscid'];
-        $visit      = $_POST['visit'];
-        $comments   = $_POST['comments'];
-        $version    = $_POST['version'];
+        $site       = $_POST['site']       !== '' ? $_POST['site'] : null;
+        $instrument = $_POST['instrument'] !== '' ? $_POST['instrument'] : null;
+        $pscid      = $_POST['pscid']      !== '' ? $_POST['pscid'] : null;
+        $visit      = $_POST['visit']      !== '' ? $_POST['visit'] : null;
+        $comments   = $_POST['comments']   !== '' ? $_POST['comments'] : null;
+        $version    = $_POST['version']    !== '' ? $_POST['version'] : null;
 
         $fileSize = $_FILES["file"]["size"];
         $fileName = $_FILES["file"]["name"];
@@ -70,12 +69,12 @@ if ($userSingleton->hasPermission('document_repository_view')
         // document_repository module directory, and use a
         // user_uploads directory as a base for user uploads
         $base_path = __DIR__ . "/../user_uploads/";
+        $puser     = $userSingleton->getUsername();
         $fileBase  = $puser . "/" . $fileName;
 
         if (!file_exists($base_path . $puser)) {
             mkdir($base_path . $puser, 0777);
         }
-
 
         $target_path = $base_path  . $fileBase;
 
