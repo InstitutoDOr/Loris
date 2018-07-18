@@ -22,7 +22,6 @@ RUN a2enmod php7.2
 COPY . /var/www/loris
 WORKDIR /var/www/loris
 RUN composer install --no-dev
-#RUN mkdir project
 RUN sed -e "s#%LORISROOT%#/var/www/loris/#g" \
         -e "s#%PROJECTNAME%#loris#g" \
         -e "s#%LOGDIRECTORY%#/var/log/apache2/#g" \
@@ -34,14 +33,9 @@ RUN a2ensite loris
 RUN mkdir smarty/templates_c
 RUN chmod 777 smarty/templates_c
 
-#ENV LORIS_SQL_DB=LorisDB
-#ENV LORIS_SQL_HOST=mysql
-#ENV LORIS_SQL_USER=loris
-#ENV LORIS_SQL_PASSWORD=
-#ENV LORIS_BASEURL=
-
 EXPOSE 80
 
 ADD docker/LorisWeb-EntryPoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 ENTRYPOINT ["/entrypoint.sh"]

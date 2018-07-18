@@ -13,8 +13,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.production
-    environment:
-      - LORIS_DB_CONFIG=/app/test/config.xml
     depends_on:
       - db
     ports:
