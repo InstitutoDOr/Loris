@@ -7,13 +7,18 @@ services:
       - MYSQL_DATABASE=LORIS_19
       - MYSQL_RANDOM_ROOT_PASSWORD=true
 
+  couchdb:
+    image: couchdb:2.1
+    restart: always
+
   webapp:
-    image: loris
+    image: loris:19
     restart: always
     build:
       context: .
       dockerfile: docker/Dockerfile.production
     depends_on:
       - db
+      - couchdb
     ports:
-      - "80:80"
+      - "8081:80"

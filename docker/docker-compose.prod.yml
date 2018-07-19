@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    volumes:
+      - /data/loris/backup/mysql:/backup
+
+  couchdb:
+    volumes:
+      - /data/loris/backup/couchdb:/backup
+
+  webapp:
+    ports:
+      - "8081:80"
+    volumes:
+      - /data/loris/backup/web:/backup
