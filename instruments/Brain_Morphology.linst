@@ -1,0 +1,47 @@
+table{@}Brain_Morphology
+title{@}Brain_Morphology
+date{@}Date_taken{@}Date of Administration{@}2006{@}2012
+static{@}Candidate_Age{@}Candidate Age (Months)
+static{@}Window_Difference{@}Window Difference (+/- Days)
+select{@}Examiner{@}Examiner{@}NULL=>''
+text{@}IRC5_Reviewer{@}IRC5_Reviewer
+select{@}IRC5_Reviewer_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}BDRPBestDxType{@}BDRP Best Dx Type{@}NULL=>''{-}'10'=>'Normal'{-}'53'=>'Isolated'{-}'54'=>'Plus'{-}'52'=>'Thin'{-}'55'=>'Aicardi'{-}'56'=>'Other'
+select{@}BDRPBestDxTypeLvlOfConfid{@}BDRP Best Dx Type LoC{@}NULL=>''{-}'101'=>'1'{-}'102'=>'2'{-}'103'=>'3'{-}'104'=>'4'{-}'105'=>'5'{-}'106'=>'6'{-}'107'=>'7'{-}'108'=>'8'{-}'109'=>'9'{-}'110'=>'10'
+select{@}CorpusCallosumType{@}Corpus Callosum Type{@}NULL=>''{-}'10'=>'Normal'{-}'50'=>'Complete DCC'{-}'51'=>'Partial DCC'{-}'52'=>'Thin'{-}'56'=>'Other'{-}'95'=>'Indeterminate'
+text{@}BDRPBestDxDescription{@}BDRP Best Diagnosis
+select{@}BDRPBestDxDescription_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DandyWalkerMalformation{@}Dandy Walker{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'
+select{@}AntCommisNlAb{@}Ant Commisure Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'11'=>'Small'{-}'12'=>'Large'{-}'0'=>'Absent'{-}'95'=>'Indeterminate'
+select{@}HipCommisNlAb{@}Hip Commis Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'11'=>'Small'{-}'12'=>'Large'{-}'0'=>'Absent'{-}'95'=>'Indeterminate'
+select{@}PituitaryNlAb{@}Pituitary Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}BrainstemNIAb{@}BrainstemDescription{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}CerebellarHemispheresNlAb{@}Cerebellar Hemispheres Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}CerebellarVermisNlAb{@}Cerebellar Vermis Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}CerebellarPendunclesDescriptioin{@}Cerebellar Penduncles{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}CM{@}CM{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}PMG{@}PMG{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}PVHeterotopia{@}PV Heterotopia{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}SCHeterotopia{@}SC Heterotopia{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}Schizencephaly{@}Schizencephaly{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}DysplasiaNOS{@}Dysplasia NOS{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}VentricleNlAb{@}Ventricle{@}NULL=>''{-}'0'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}VentricleDysplasia{@}Ventricle Displaysia{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}VentricleSize{@}Ventricle Size{@}NULL=>''{-}'10'=>'Normal'{-}'11'=>'Small'{-}'12'=>'Large'{-}'95'=>'Indeterminate'
+select{@}Colpocephaly{@}Colpocephaly{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}BasalGangliaThalamus{@}Basal Ganglia and Thalamus Ab{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}OrbitsNlAb{@}Orbits Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}HippocampiNlAb{@}Hippocampi{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}SulciNlAb{@}Olfactory Sulci Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}BulbsNlAb{@}Olfactory Bulbs Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}LipomaNonePresent{@}Lipoma None/Present{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}CystPresAbs{@}Cyst Pres/Abs{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}CystType{@}Cyst Type{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Type I'{-}'2'=>'Type II'{-}'56'=>'Other'{-}'95'=>'Indeterminate'
+select{@}ProbstBundlesNonePresent{@}Probst Bundles{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}SigBundlesNonePresent{@}Sigmoid Bundles{@}NULL=>''{-}'0'=>'None'{-}'1'=>'Present'{-}'95'=>'Indeterminate'
+select{@}WMDecAmt{@}WM Decreased Amount{@}NULL=>''{-}'23'=>'Moderate'{-}'24'=>'Severe'{-}'95'=>'Indeterminate'
+select{@}WMVolumeNLDec{@}WM Volume{@}NULL=>''{-}'10'=>'Normal'{-}'11'=>'Decreased'{-}'95'=>'Indeterminate'
+select{@}MyelinationNlAb{@}Myelination Nl Ab{@}NULL=>''{-}'10'=>'Normal'{-}'9'=>'Abnormal'{-}'95'=>'Indeterminate'
+select{@}OtherMRIFindings{@}MRI Feature - Other{@}NULL=>''{-}'1'=>'Yes'{-}'2'=>'No'
+text{@}OtherMRIFindingsDescribe{@}MRI Feature - Notes
+select{@}OtherMRIFindingsDescribe_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'

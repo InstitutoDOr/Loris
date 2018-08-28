@@ -1,0 +1,117 @@
+table{@}Hx_PregnancyDelivery
+title{@}Hx_PregnancyDelivery
+date{@}Date_taken{@}Date of Administration{@}2007{@}2022
+static{@}Candidate_Age{@}Candidate Age (Months)
+static{@}Window_Difference{@}Window Difference (+/- Days)
+select{@}Examiner{@}Examiner{@}NULL=>''
+select{@}OBHx_Source{@}OB_History_Source{@}NULL=>''{-}'91'=>'Medical Records'{-}'90'=>'Hx Form'{-}'99'=>'Unknown'{-}'not_answered'=>'Not Answered'
+date{@}OBHx_DateEntered{@}OB_History_DateEntered{@}
+select{@}OBHx_DateEntered_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}AgeMomAtConcep{@}Mom's Age of Conception{@}
+select{@}AgeMomAtConcep_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}AgeDadAtConcep{@}Dad's Age of Conception{@}
+select{@}AgeDadAtConcep_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}TotalNoPreg{@}Total # of Pregnancy{@}
+select{@}TotalNoPreg_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}TotalNoDeliv{@}Total # of Delivery{@}
+select{@}TotalNoDeliv_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}TotalNoMisca{@}Total # of Miscarriages{@}
+select{@}TotalNoMisca_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}TotalNoAbor{@}Total # of Abortions{@}
+select{@}TotalNoAbor_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DifficultyConceiving{@}Difficulty Conceiving?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}FertilityMedication{@}If Difficulty - Fertility Med?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}AssistedReproduction{@}If Difficulty - Assisted Repro?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}InVitroFertilization{@}If Difficulty - In Vitro Fert?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}SurrogateMother{@}If Difficulty - Surrogate Mom?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}OtherConceptionAssistance{@}If Difficulty - Other{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}OtherConceptionAssistanceNotes{@}IfDifficulty - Notes{@}
+select{@}OtherConceptionAssistanceNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyIllnessFeverSTD{@}Pregnancy Illness, Fever or STD{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}PregnancyIllnessFeverSTDNotes{@}Illness, fever, or STD notes{@}
+select{@}PregnancyIllnessFeverSTDNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyPhysicalTrauma{@}Pregnancy physical trauma{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}PregnancyPhysicalTraumaNotes{@}Pregnancy phys. Trauma notes{@}
+select{@}PregnancyPhysicalTraumaNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyVitaminsSupplementsMedications{@}Vitamins, supplments, meds?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}PregnancyVitaminsSupplementsMedicationsNotes{@}Vit, supp, meds notes{@}
+select{@}PregnancyVitaminsSupplementsMedicationsNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyTobaccoUse{@}Pregnancy Tobacco Use{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyTobaccoUseFrequency{@}Prenancy Tobacco UseFreq{@}NULL=>''{-}'41'=>'A few during pregnancy'{-}'42'=>'Half a pack or less than half a pack/day'{-}'43'=>'1 pack/day'{-}'44'=>'More than 1 pack/day'{-}'45'=>'More than 2 packs/day'{-}'99'=>'Unknown'{-}'98'=>'Not asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyAlcoholUse{@}Pregnancy EtOH Use{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyAlcoholUseFrequency{@}Pregnancy EtOH Use Frequency{@}NULL=>''{-}'41'=>'more than 1/day'{-}'42'=>'1/day'{-}'43'=>'more than 1/week'{-}'44'=>'1/week'{-}'45'=>'more than 1/month'{-}'46'=>'1/month'{-}'47'=>'scarcely, less than 1/3 month'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyRecreationalDrugsUse{@}Pregnancy Recreational Drugs{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}PregnancyRecreationalDrugsUseNotes{@}Recreational Drugs Notes{@}
+select{@}PregnancyRecreationalDrugsUseNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationNausea{@}Preg Complications - Nausea{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationAnemia{@}Preg Complications - Anemia{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationHypertension{@}Preg Comp - Hypertension{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationPreeclampsia{@}Preg Comp - Preeclampsia{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationEclampsia{@}Preg Comp - Eclampsia{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationBleeding{@}Preg Complications - Bleeding{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationHyperglycemia{@}Preg Comp - Hyperglycemia{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyComplicationOther{@}Preg Complications - Other{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}PregnancyComplicationOtherNotes{@}Preg Complications - Other Notes{@}
+select{@}PregnancyComplicationOtherNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}PregnancyExposureRadiationChemicals{@}Exposure to Radiation/Chemicals{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyStudyNone{@}Pregnancy Study - None{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyStudyAmnio{@}Pregnancy Study - Amnio{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyStudyPrenatalScreen{@}Preg Study - Prenatal Screen{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyStudyUltrasound{@}Pregnancy Study - US{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}PregnancyStudyCVS{@}Pregnancy Study - CVS{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+numeric{@}PregnancyWeekUltrasoundPerformed{@}Week US Performed{@}
+select{@}PregnancyWeekUltrasoundPerformed_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DCCDetected{@}ACC Detected?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}OtherFindings{@}Other Findings{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+numeric{@}PregnancyWeekUltrasoundPerformed1{@}Week US Performed 2{@}
+select{@}PregnancyWeekUltrasoundPerformed1_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DCCDetected1{@}ACC Detected?1{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}OtherFindings1{@}Other Findings1{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+numeric{@}PregnancyWeekUltrasoundPerformed2{@}Week US Performed2{@}
+select{@}PregnancyWeekUltrasoundPerformed2_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DCCDetected2{@}ACC Detected?2{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}OtherFindings2{@}Other Findings2{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}Birth_Place{@}Birth Place{@}NULL=>''{-}'35'=>'Hospital'{-}'36'=>'Home'{-}'56'=>'Other'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}HospitalName{@}HospitalName{@}
+select{@}HospitalName_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+text{@}HospitalCity{@}HospitalCity{@}
+select{@}HospitalCity_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+text{@}HospitalState{@}HospitalState{@}
+select{@}HospitalState_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}GestationDurationWeeks{@}Gestation Duration (Weeks){@}
+select{@}GestationDurationWeeks_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DeliverTerm{@}Deliver Term?{@}NULL=>''{-}'10'=>'Term'{-}'11'=>'Pre-Term'{-}'12'=>'Post-Term'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+numeric{@}NewBornBirthWeight{@}New Born Birth Weight (lb / gm){@}
+select{@}NewBornBirthWeight_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}NewBornBirthLength{@}New Born Birth Length (in / cm){@}
+select{@}NewBornBirthLength_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}NewBornHeadCircumference{@}New Born Head Circumference (in / cm){@}
+select{@}NewBornHeadCircumference_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}DeliveryMode{@}Delivery Mode - Vaginal or Csec{@}NULL=>''{-}'301'=>'Vaginal'{-}'302'=>'C-section'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}DeliveryForceps{@}Delivery Mode - Forceps?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}DeliveryVacuum{@}Delivery Mode - Vacuum?{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationCyanosis{@}Delivery Comp - Cyanosis{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationApnea{@}Delivery Comp - Apnea{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationRepiratory{@}Delivery Comp - Respiratory{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationCardiac{@}Delivery Comp - Cardiac{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationSeizures{@}Delivery Comp - Seizures{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationStroke{@}Delivery Comp - Stroke{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationNeuroclinic{@}Delivery Comp - Neurologic{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationJaundice{@}Delivery Comp - Jaundice{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationInfection{@}Delivery Comp - Infection{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationFeeding{@}Delivery Comp - Feeding{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}ComplicationCongenitalAbnormality{@}Delivery Comp - Congenital Ab.{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}ComplicationNotes{@}Delivery Comp - Describe{@}
+select{@}ComplicationNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}SpecialAssistanceFollowingDelivery{@}Special Assitance Following Del{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+text{@}SpecialAssistanceFollowingDeliveryNotes{@}Special Assitance Post Del Notes{@}
+select{@}SpecialAssistanceFollowingDeliveryNotes_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}NurseryCourseHospitalStayDays{@}Nursery Hospital Stay Days{@}
+select{@}NurseryCourseHospitalStayDays_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}NurseryCourseHospitalStayMonths{@}Nursery Hospital Stay Months{@}
+select{@}NurseryCourseHospitalStayMonths_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}NurseryCourseBreathingAssistance{@}Nursery - Breathing Assistance{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}NurseryCourseInfections{@}Nursery - Infections{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}NurseryCourseJaundice{@}Nursery - Jaundice{@}NULL=>''{-}'1'=>'Yes'{-}'0'=>'No'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}APGARScore1Min{@}APGAR Score - 1Min{@}NULL=>''{-}'41'=>'1'{-}'42'=>'2'{-}'43'=>'3'{-}'44'=>'4'{-}'45'=>'5'{-}'46'=>'6'{-}'47'=>'7'{-}'48'=>'8'{-}'49'=>'9'{-}'40'=>'10'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'
+select{@}APGARScore5Min{@}APGAR Score - 5 Min{@}NULL=>''{-}'41'=>'1'{-}'42'=>'2'{-}'43'=>'3'{-}'44'=>'4'{-}'45'=>'5'{-}'46'=>'6'{-}'47'=>'7'{-}'48'=>'8'{-}'49'=>'9'{-}'40'=>'10'{-}'99'=>'Unknown'{-}'98'=>'Not Asked'{-}'not_answered'=>'Not Answered'

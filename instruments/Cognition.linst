@@ -1,0 +1,51 @@
+table{@}Cognition
+title{@}Cognition
+date{@}Date_taken{@}Date of Administration{@}2006{@}2012
+static{@}Candidate_Age{@}Candidate Age (Months)
+static{@}Window_Difference{@}Window Difference (+/- Days)
+select{@}Examiner{@}Examiner{@}NULL=>''
+numeric{@}FSIQ{@}FSIQ{@}50{@}140
+select{@}FSIQ_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}VIQ{@}VIQ{@}50{@}140
+select{@}VIQ_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}PIQ{@}PIQ{@}50{@}140
+select{@}PIQ_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}VCI{@}VCI{@}50{@}140
+select{@}VCI_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}POI{@}POI{@}50{@}140
+select{@}POI_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}WMI{@}WMI{@}50{@}140
+select{@}WMI_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}PSI{@}PSI{@}50{@}140
+select{@}PSI_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+text{@}IQ_measure{@}IQ_measure
+select{@}IQ_measure_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+date{@}IQ_date{@}IQ_date{@}{@}{@}
+select{@}IQ_date_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+select{@}IQ_testing_site{@}IQ_testing_site{@}NULL=>''{-}'fts'=>'FTS'{-}'UCSF'=>'UCSF'{-}'UQ'=>'UQ'{-}'IDOR'=>'IDOR'{-}'Caltech'=>'Caltech'
+numeric{@}PictureComp_SS{@}PictureComp_SS{@}1{@}19
+select{@}PictureComp_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}Vocab_SS{@}Vocab_SS{@}1{@}19
+select{@}Vocab_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}DigitSymbolCoding_SS{@}DigitSymbolCoding_SS{@}1{@}19
+select{@}DigitSymbolCoding_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}Similarities_SS{@}Similarities_SS{@}1{@}19
+select{@}Similarities_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}BlockDesign_SS{@}BlockDesign_SS{@}1{@}19
+select{@}BlockDesign_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}ArithmeticSS{@}ArithmeticSS{@}1{@}19
+select{@}ArithmeticSS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}MatrixReasoning_SS{@}MatrixReasoning_SS{@}1{@}19
+select{@}MatrixReasoning_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}DigitSpan_SS{@}DigitSpan_SS{@}1{@}19
+select{@}DigitSpan_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}Information_SS{@}Information_SS{@}1{@}19
+select{@}Information_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}PictureArrangement_SS{@}PictureArrangement_SS{@}1{@}19
+select{@}PictureArrangement_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}Comprehension_SS{@}Comprehension_SS{@}1{@}19
+select{@}Comprehension_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}SymbolSearch_SS{@}SymbolSearch_SS{@}1{@}19
+select{@}SymbolSearch_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
+numeric{@}LetterNumber_SS{@}LetterNumber_SS{@}1{@}19
+select{@}LetterNumber_SS_status{@}{@}NULL=>''{-}'not_answered'=>'Not Answered'
