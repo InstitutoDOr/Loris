@@ -6,10 +6,14 @@ services:
     environment:
       - MYSQL_DATABASE=LORIS_19
       - MYSQL_RANDOM_ROOT_PASSWORD=true
+    ports:
+      - "3306:3306"
 
   couchdb:
     image: couchdb:2.1
     restart: always
+    ports:
+      - "5984:5984"
 
   webapp:
     image: loris:19
