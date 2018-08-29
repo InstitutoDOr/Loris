@@ -1,115 +1,34 @@
-version: '2'
+version: '3'
+
 services:
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.db
-      args:
-        BASE_DIR: /app/
-    volumes:
-      - ./test/mysql-config:/etc/mysql/conf.d
+    image: mysql:5.7
+    restart: always
     environment:
-      - MYSQL_DATABASE=LorisTest
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-
-  selenium:
-    image: selenium/standalone-firefox-debug:2.53.1
+      - MYSQL_DATABASE=LorisDB
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
     ports:
-      - "5900:5900"
+      - "3306:3306"
 
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.php7
-    volumes:
-      - ./:/app
-      - ./test/test_instrument:/app/project/instruments
-    environment:
-      - LORIS_DB_CONFIG=/app/test/config.xml
-    depends_on:
-      - db
-    command: php -S 0.0.0.0:8000 -t /app/htdocs /app/htdocs/router.php
-
-  unit-tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.php7
-    volumes:
-      - ./:/app
-    working_dir: /app
-    environment:
-      - LORIS_DB_CONFIG=test/config.xml
-    depends_on:
-      - db
-    entrypoint: /app/test/wait-for-services.sh
-
-  integration-tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.php7
-    volumes:
-      - ./:/app
-    working_dir: /app
-    environment:
-      - LORIS_DB_CONFIG=test/config.xml
-      - SELENIUM_REQUIRED=true
-    depends_on:
-      - db
-      - selenium
-      - web
-    entrypoint: /app/test/wait-for-services.sh
-
-  selenium-debug:
-    image: selenium/standalone-firefox-debug:2.53.1
-    links:
-      - web-debug:web
+  couchdb:
+    image: couchdb:2.1
+    restart: always
     ports:
-      - "5901:5900"
+      - "5984:5984"
 
-  web-debug:
+  webapp:
+    image: loris:20
+    restart: always
     build:
       context: .
-      dockerfile: Dockerfile.test.php7.debug
-    volumes:
-      - ./:/app
-      - ./test/test_instrument:/app/project/instruments
+      dockerfile: docker/Dockerfile
     environment:
-      - LORIS_DB_CONFIG=/app/test/config.xml
-      - XDEBUG_CONFIG=remote_host=${XDEBUG_REMOTE_HOST}
-      - PHP_IDE_CONFIG=serverName=LorisTests
+      - LORIS_SQL_DB=LorisDB
+      - LORIS_SQL_USER=loris
+      - LORIS_SQL_HOST=mysql
+      - LORIS_SQL_PASSWORD=LorisDBPASSWORD
     depends_on:
       - db
-    command: php -S 0.0.0.0:8000 -t /app/htdocs /app/htdocs/router.php
-
-  unit-tests-debug:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.php7.debug
-    volumes:
-      - ./:/app
-    working_dir: /app
-    environment:
-      - LORIS_DB_CONFIG=test/config.xml
-      - XDEBUG_CONFIG=remote_host=${XDEBUG_REMOTE_HOST}
-      - PHP_IDE_CONFIG=serverName=LorisTests
-    depends_on:
-      - db
-    entrypoint: /app/test/wait-for-services.sh
-
-  integration-tests-debug:
-    build:
-      context: .
-      dockerfile: Dockerfile.test.php7.debug
-    volumes:
-      - ./:/app
-    working_dir: /app
-    environment:
-      - LORIS_DB_CONFIG=test/config.xml
-      - SELENIUM_REQUIRED=true
-      - XDEBUG_CONFIG=remote_host=${XDEBUG_REMOTE_HOST}
-      - PHP_IDE_CONFIG=serverName=LorisTests
-    links:
-      - db
-      - selenium-debug:selenium
-      - web-debug:web
-    entrypoint: /app/test/wait-for-services.sh
+      - couchdb
+    ports:
+      - "${EXTERNAL_PORT:-80}:80"
