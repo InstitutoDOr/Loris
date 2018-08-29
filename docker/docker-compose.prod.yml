@@ -4,20 +4,22 @@ services:
   db:
     env_file:
       - docker/envs/prod.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=
     volumes:
-      - ./backup:/backup
+      - ../backup/db:/backup
 
   couchdb:
     volumes:
-      - ../backup:/backup
+      - ../backup/couchdb:/backup
 
   webapp:
     build:
       context: .
-      dockerfile: docker/Dockerfile.production
+      dockerfile: docker/Dockerfile.prod
       args:
         LORIS_TAG: v20.0.1
     env_file:
       - docker/envs/prod.env
     volumes:
-      - ../backup:/backup
+      - ../backup/loris:/backup

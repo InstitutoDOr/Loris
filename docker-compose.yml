@@ -4,9 +4,10 @@ services:
   db:
     image: mysql:5.7
     restart: always
+    env_file:
+      - docker/envs/default.env
     environment:
-      - MYSQL_DATABASE=LorisDB
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-LorisPass}
     ports:
       - "3306:3306"
 
@@ -22,11 +23,8 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    environment:
-      - LORIS_SQL_DB=LorisDB
-      - LORIS_SQL_USER=loris
-      - LORIS_SQL_HOST=mysql
-      - LORIS_SQL_PASSWORD=LorisDBPASSWORD
+    env_file:
+      - docker/envs/default.env
     depends_on:
       - db
       - couchdb

@@ -1,0 +1,9 @@
+FROM mysql:5.7
+
+COPY SQL/0000-00-00-schema.sql /0000-00-00-schema.sql
+COPY SQL/0000-00-01-Permission.sql /0000-00-01-Permission.sql
+COPY SQL/0000-00-02-Menus.sql /0000-00-02-Menus.sql
+COPY SQL/0000-00-03-ConfigTables.sql /0000-00-03-ConfigTables.sql
+COPY SQL/0000-00-04-Help.sql /0000-00-04-Help.sql
+
+ADD docker/scripts/init_db_loris.sh /init_db_loris.sh

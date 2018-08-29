@@ -5,15 +5,16 @@
 1. Setup docker-compose
 * Copy file `docker/envs/prod.env.example` to `docker/envs/prod.env` and adjust MYSQL_DATABASE variable.
 
-2. Setup MySQL
+2. Start services
 ```bash
-docker-compose -f docker-compose.yml -f docker/docker-compose.prod.yml up -d db
-docker logs loris_db_1 2>&1 | grep PASSWORD
+docker-compose -f docker-compose.yml -f docker/docker-compose.prod.yml up -d
 ```
 
 3. Setup LORIS
-* Setup database credentials in "docker/envs/prod.env"
-* Start services 
+
+* Get credentials to do the first access using the command:
 ```bash
-docker-compose -f docker-compose.yml -f docker/docker-compose.prod.yml up -d db
+docker-compose logs webapp
 ```
+
+* Access the system and do your adjustments.
