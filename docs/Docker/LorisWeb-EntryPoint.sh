@@ -4,7 +4,11 @@ set -e
 source /etc/apache2/envvars
 # if [ ! -e project/config.xml.tmp ]; then
 if [ ! -e project/config.xml ]; then
-    IPAddress=`ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
+    if [ -z "$LORIS_ADDRESS" ]; then
+         IPAddress=`ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
+         echo >&2 "LORIS_ADDRESS not specified. Assuming \"$IPAddress\""
+         LORIS_ADDRESS=$IPAddress
+    fi
 
     RANDOMPASS=`date | md5sum | head -c 16`
     if [ -z "$LORIS_SQL_DB" ]; then
@@ -34,7 +38,7 @@ if [ ! -e project/config.xml ]; then
 
     # Waiting for database
     until mysqladmin ping -h"$LORIS_SQL_HOST" --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" --silent; do
-        >&2 echo "MySQL is unavailable - sleeping"
+        >&2 echo "MySQL is unavailable - sleeping. Check again after 10 seconds."
         sleep 3
     done
 
@@ -43,10 +47,10 @@ if [ ! -e project/config.xml ]; then
     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" < $TEMP_FILE
     rm $TEMP_FILE
 
-     echo "Configuring Loris to be accessible at http://$IPAddress. Please update configuration through admin module using admin user and password $RANDOMPASS."
+     echo "Configuring Loris to be accessible at http://$LORIS_ADDRESS. Please update configuration through admin module using admin user and password $RANDOMPASS."
      mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" -A -e "UPDATE Config SET Value='/var/www/loris/' WHERE ConfigID=(SELECT ID FROM ConfigSettings WHERE Name='base')"
-     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" -A -e "UPDATE Config SET Value='$IPAddress' WHERE ConfigID=(SELECT ID FROM ConfigSettings WHERE Name='host')"
-     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" -A -e "UPDATE Config SET Value='http://$IPAddress' WHERE ConfigID=(SELECT ID FROM ConfigSettings WHERE Name='url')"
+     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" -A -e "UPDATE Config SET Value='$LORIS_ADDRESS' WHERE ConfigID=(SELECT ID FROM ConfigSettings WHERE Name='host')"
+     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" -A -e "UPDATE Config SET Value='http://$LORIS_ADDRESS' WHERE ConfigID=(SELECT ID FROM ConfigSettings WHERE Name='url')"
 
      # Update the password
      DB_PASS=$(php -r "echo password_hash('$RANDOMPASS', PASSWORD_DEFAULT);")

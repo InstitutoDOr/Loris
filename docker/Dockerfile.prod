@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 LABEL author="Bruno Melo <bruno.melo@idor.org>"
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG LORIS_TAG=v20.0.1
+ARG LORIS_VERSION=v20.0.1
 # Stock images come without apt archive -- needs an update
 RUN apt-get -qqq update
 
@@ -20,9 +20,9 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 RUN a2enmod php7.2
 
 # PREPARING LORIS
-RUN wget https://github.com/aces/Loris/archive/$LORIS_TAG.zip && \
-        unzip $LORIS_TAG.zip -d /var/www && mv /var/www/Loris* /var/www/loris && \
-        rm -rf $LORIS_TAG.zip
+RUN wget https://github.com/aces/Loris/archive/$LORIS_VERSION.zip && \
+        unzip $LORIS_VERSION.zip -d /var/www && mv /var/www/Loris* /var/www/loris && \
+        rm -rf $LORIS_VERSION.zip
 
 WORKDIR /var/www/loris
 RUN composer install --no-dev
