@@ -1,6 +1,16 @@
 # Docker Usage
 
-## Production environment
+## Environments
+* [Production](#production)
+* [Development](#development)
+
+### Production
+
+> _Note_: Be careful when using Docker in production environments (
+    [Link 1](https://ghost.kontena.io/docker-in-production-good-bad-ugly/), 
+    [Link 2](https://blog.cloud66.com/9-crtitical-decisions-needed-to-run-docker-in-production/), 
+    [Link 3](https://www.quora.com/Is-Docker-ready-for-production)
+).
 
 1. Setup docker-compose
 
@@ -25,7 +35,7 @@
 
     * Get credentials to do the first access using the command:
 
-        _Note_: services need some time to be ready. If credentials are not available, run this command again after some seconds.
+        _Note_: services need some time to be ready. If credentials are not yet available, run this command again after some seconds.
 
         ```bash
         docker-compose logs webapp
@@ -35,3 +45,33 @@
 
 
 > _OBS._: Don't forget to set up backup routines.
+
+
+___
+### Development
+
+1. Start services
+
+    ```bash
+    docker-compose -f docker-compose.yml -f docker/docker-compose.dev.yml up -d
+    ```
+
+2. Prepare your environment
+
+    * Command below will download dependencies and create some files ad folders:
+
+        ```bash
+        docker-compose exec webapp /bin/bash docker/scripts/init-dev.sh
+        ```
+
+3. Setup LORIS
+
+    * Get credentials to do the first access using the command:
+
+        _Note_: services need some time to be ready. If credentials are not yet available, run this command again after some seconds.
+
+        ```bash
+        docker-compose logs webapp
+        ```
+
+    * Access the system, change `admin` password and start to test LORIS.
