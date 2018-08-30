@@ -2,7 +2,11 @@
 set -e
 
 source /etc/apache2/envvars
-# if [ ! -e project/config.xml.tmp ]; then
+
+LORIS_SQL_DB=$(eval echo $LORIS_SQL_DB)
+LORIS_SQL_PASSWORD=$(eval echo $LORIS_SQL_PASSWORD)
+LORIS_SQL_USER=$(eval echo $LORIS_SQL_USER)
+
 if [ ! -e project/config.xml ]; then
     if [ -z "$LORIS_ADDRESS" ]; then
          IPAddress=`ip addr | grep 'eth0' | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
@@ -15,9 +19,10 @@ if [ ! -e project/config.xml ]; then
          echo >&2 "WARNING: LORIS_SQL_DB not set. Assuming \"LorisDB\""
          LORIS_SQL_DB="LorisDB"
      fi
+
     if [ -z "$LORIS_SQL_HOST" ]; then
-         echo >&2 "WARNING: LORIS_SQL_HOST not set. Assuming \"mysql\""
-         LORIS_SQL_HOST="mysql"
+         echo >&2 "WARNING: LORIS_SQL_HOST not set. Assuming \"db\""
+         LORIS_SQL_HOST="db"
      fi
 
      if [ -z "$LORIS_SQL_PASSWORD" ]; then
@@ -42,6 +47,7 @@ if [ ! -e project/config.xml ]; then
         sleep 3
     done
 
+    # TODO: Run below commands only if database is empty.
     TEMP_FILE=/tmp/mysql-first-time.sql
     cat $(ls /var/www/loris/SQL/0000-*.sql | sort) >> $TEMP_FILE
     mysql $LORIS_SQL_DB -h$LORIS_SQL_HOST --user=$LORIS_SQL_USER --password="$LORIS_SQL_PASSWORD" < $TEMP_FILE

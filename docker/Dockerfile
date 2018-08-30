@@ -1,38 +1,42 @@
-FROM ubuntu:14.04
-MAINTAINER Dave MacFarlane <david.macfarlane2@mcgill.ca>
+FROM ubuntu:18.04
+LABEL author="Bruno Melo <bruno.melo@idor.org>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+ARG LORIS_VERSION=v20.0.1
 # Stock images come without apt archive -- needs an update
 RUN apt-get -qqq update
-RUN apt-get -y install php5 php5-json curl git php5-mysql mysql-client
-#RUN git clone https://github.com/aces/Loris.git /var/www/loris
-#INCLUDE HOSTNAME REPLACEMENT?
-COPY . /var/www/loris
 
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-RUN COMPOSER_HOME=/var/www/loris
-RUN cd /var/www/loris && composer install --no-dev
-WORKDIR /var/www/loris
-RUN mkdir project
-RUN sed -e "s#%LORISROOT%#/var/www/loris/#g" \
+# APACHE
+RUN apt-get install software-properties-common -y && \
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update -y
+RUN apt-get -y install apache2 curl git zip wget mysql-client iproute2
+RUN a2enmod rewrite
+
+# PHP & COMPOSER
+RUN apt-get -y install php7.2 php7.2-cli php7.2-json php7.2-mysql php7.2-xml php7.2-zip php7.2-mbstring php7.2-gd libapache2-mod-php7.2
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
+RUN a2enmod php7.2
+
+COPY docs/config/apache2-site /etc/apache2/sites-available/loris.conf
+RUN sed -i -e "s#%LORISROOT%#/var/www/loris/#g" \
         -e "s#%PROJECTNAME%#loris#g" \
         -e "s#%LOGDIRECTORY%#/var/log/apache2/#g" \
-        < docs/config/apache2-site > /etc/apache2/sites-available/loris.conf
+        /etc/apache2/sites-available/loris.conf
 RUN a2dissite 000-default
 RUN ls /etc/apache2/sites-available
 RUN ls /etc/apache2/sites-enabled
 RUN a2ensite loris
-RUN mkdir smarty/templates_c
-RUN chmod 777 smarty/templates_c
-
-ENV LORIS_SQL_DB=LorisDB
-ENV LORIS_SQL_HOST=mysql
-ENV LORIS_SQL_USER=loris
-ENV LORIS_SQL_PASSWORD=
-ENV LORIS_BASEURL=
 
 EXPOSE 80
-VOLUME ["/var/www/loris/project", "/var/log/apache2", "/var/lib/php5"]
 
-ADD docs/Docker/LorisWeb-EntryPoint.sh /entrypoint.sh
+RUN mkdir /var/www/loris
+WORKDIR /var/www/loris
+VOLUME [ "/var/www/loris" ]
+
+COPY docs/Docker/LorisWeb-EntryPoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 ENTRYPOINT ["/entrypoint.sh"]

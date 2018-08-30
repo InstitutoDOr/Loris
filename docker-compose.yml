@@ -6,8 +6,6 @@ services:
     restart: always
     env_file:
       - docker/envs/default.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-LorisPass}
     ports:
       - "3306:3306"
 
@@ -18,7 +16,7 @@ services:
       - "5984:5984"
 
   webapp:
-    image: loris:20
+    image: loris:${LORIS_VERSION:-dev}
     restart: always
     build:
       context: .
